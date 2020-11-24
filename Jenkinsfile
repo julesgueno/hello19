@@ -1,4 +1,8 @@
 pipeline {
+   environment {
+    registry = "julesgueno/devops-pipe-test"
+    registryCredential = 'DockerID1'
+   }
    agent any
    tools {
       maven 'M2_HOME'  
@@ -20,15 +24,9 @@ pipeline {
       
      stage('Deploy'){
        steps {
-        echo "Deploys steps"
-        sleep 10
+        script {
+         docker.build registry + ":$BUILD_NUMBER"   
        }
      }
-     stage('Docker'){
-       steps {
-        echo "Images steps"
-        sleep 10
-       }
-     } 
    }
 }    
